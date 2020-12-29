@@ -1,0 +1,16 @@
+
+
+	h1 Welcome!
+	= form_with model: @user do |form|
+			
+				
+		= form.label :login 
+		= form.text_field :login 
+		br
+				
+		= form.label :password, 'Password' 
+		= form.password_field :password
+		br
+				
+		= submit_tag  'Sign Up'
+
