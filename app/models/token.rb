@@ -2,6 +2,37 @@ class Token < ApplicationRecord
 	belongs_to :user
 	after_find :check_access_token
 
+	
+	def self.request_access_token
+
+		Faraday.get('https://accounts.spotify.com/authorize') do |req|
+
+			req.params[:client_id]='b6cd001838f8450191a5d06a4cc86179'
+			req.params[:response_type]='code'
+			req.params[:redirect_uri]='http://localhost:3000/tokens/create'
+			
+			end
+
+	end
+
+	def self.verify_access_token(code)
+
+		access_token= code
+
+		resp=Faraday.post('https://accounts.spotify.com/api/token') do |req|
+
+			req.params[:grant_type]='authorization_code'
+			req.params[:code]=access_token
+			req.params[:redirect_uri]='http://localhost:3000/tokens/create'
+			req.params[:client_id]='b6cd001838f8450191a5d06a4cc86179'
+			req.params[:client_secret]=Rails.application.credentials.spotify_secret
+			end
+
+		JSON.parse(resp.body)
+	
+		
+	end
+
 	private
 
 	def check_access_token
