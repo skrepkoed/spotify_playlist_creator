@@ -4,8 +4,13 @@ h1
 	| Hello 
 	= @user.login
 
-p 
-	=@playlists
+ul
+  - @artists.each do |artist|
+    li.artist
+      div
+        | Name: 
+        = artist['name']
+	
 
 
 		

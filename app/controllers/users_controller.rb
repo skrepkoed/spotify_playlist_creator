@@ -23,15 +23,9 @@ class UsersController < ApplicationController
 
 		@user=User.find(params[:id])
 
-		playlists=Faraday.get('https://api.spotify.com/v1/me/playlists') do |req|
+		@artists=@user.token.get_users_artists['artists']['items']
 
-			req.headers['Authorization']='Bearer '+ @user.token.access_token
-			req.headers['Content-Type']='application/json'
-			req.headers['Accept']='application/json'
-
-		end
 		#binding.pry
-		@playlists=JSON.parse(playlists.body)
 		
 	end
 
