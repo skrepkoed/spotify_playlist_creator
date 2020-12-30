@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	skip_before_action :require_login, execept: [:new, :create]
+	before_action :require_login, except: [:new, :create], raise: false
 	def new
 
 		@user=User.new
@@ -23,7 +23,11 @@ class UsersController < ApplicationController
 
 		@user=User.find(params[:id])
 
-		@artists=@user.token.get_users_artists['artists']['items']
+		@session=session
+
+		#@artists=@user.token.get_users_artists
+
+		@artists=SpotifyResponce.new(SpotifyApiCall.call(user:@user) ).responce
 
 		#binding.pry
 		

@@ -34,22 +34,6 @@ class Token < ApplicationRecord
 		
 	end
 
-	def get_users_artists
-
-		artists=Faraday.get('https://api.spotify.com/v1/me/following?') do |req|
-
-			req.headers['Authorization']='Bearer '+ self.access_token
-			req.headers['Content-Type']='application/json'
-			req.headers['Accept']='application/json'
-			req.params['type']='artist'
-			req.params['limit']='50'
-
-		end
-		#binding.pry
-		JSON.parse(artists.body)
-		
-	end
-
 	private
 
 	def check_access_token
