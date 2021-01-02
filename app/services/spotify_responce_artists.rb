@@ -7,7 +7,7 @@ def initialize(responce)
 	@total=responce[type]['total']
 	super(responce)	
 	@responce=responce[@type]['items'].map! { |e| e['id']  }
-	#binding.pry
+	
 	@options.cursor=responce [@type]['cursors']['after']
 	
 	self.next_page

@@ -8,7 +8,7 @@ class SpotifyApiCall
 		
 		responce=Faraday.get(call_to_spotify.endpoint) do |req|
 
-			#binding.pry
+			
 				req.headers['Authorization']='Bearer '+ call_to_spotify.access_token
 				req.headers['Content-Type']='application/json'
 				req.headers['Accept']='application/json'
@@ -17,10 +17,10 @@ class SpotifyApiCall
 
 		end
 
-			#binding.pry
+			
 			responce=JSON.parse(responce.body) 
-			#binding.pry
-			responce[:endpoint]=endpoint
+			
+			responce[:endpoint]=endpoint #!!!!!
 			
 			responce[:options]=options
 
@@ -55,11 +55,16 @@ class SpotifyApiCall
 	end
 
 	def albums
-		artist_id=@options.artists_id.delete_at 0 
+		if @options.current_artist==nil
+			artist_id=@options.artists_id.delete_at 0 
+			@options.current_artist=artist_id
+				else
+					artist_id=@options.current_artist
+		end
 		@endpoint="https://api.spotify.com/v1/artists/#{artist_id}/albums"
 		@get_items=Proc.new do |req|
 
-			req.params['limit']='50'
+			req.params['limit']=@options.limit.to_s 
 
 			if @options.offset!=0
 					req.params['offset']=@options.offset

@@ -6,7 +6,7 @@ attr_accessor :artist_option, :album_option
 
 def self.configure(user, params)
 	token=user.token.access_token
-	#binding.pry
+	
 	artist_option=configure_artist(token, params[:number_artists])
 	album_option=configure_album(token, params[:number_albums])
 
@@ -22,7 +22,7 @@ def self.configure_artist(token, params)
 end
 
 def self.configure_album(token, params)
-	album_options={offset:0,token:token,number:params, endpoint: :albums, artists_id:nil}
+	album_options={offset:0,token:token,number:params, endpoint: :albums, artists_id:nil,current_artist:nil, limit: 50}
 
 	OpenStruct.new(album_options)
 end
