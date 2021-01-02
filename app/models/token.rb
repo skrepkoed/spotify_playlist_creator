@@ -10,7 +10,7 @@ class Token < ApplicationRecord
 			req.params[:client_id]='b6cd001838f8450191a5d06a4cc86179'
 			req.params[:response_type]='code'
 			req.params[:redirect_uri]='http://localhost:3000/tokens/create'
-			req.params[:scope]='user-follow-read'
+			req.params[:scope]='playlist-modify-public,user-follow-read'
 			
 			end
 
@@ -31,6 +31,18 @@ class Token < ApplicationRecord
 
 		JSON.parse(resp.body)
 
+		
+	end
+
+	def self.get_spotify_user_id(access_token)
+
+		resp=Faraday.get('https://api.spotify.com/v1/me') do |req|
+
+			req.headers['Authorization']='Bearer '+ access_token
+			
+		end
+
+		JSON.parse(resp.body)['id']
 		
 	end
 

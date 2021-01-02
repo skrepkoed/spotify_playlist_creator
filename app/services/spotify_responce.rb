@@ -3,7 +3,7 @@ class SpotifyResponce
 attr_accessor :type , :responce,  :total, :options
 
 def initialize(responce)
-	@user=responce.delete(:user) ###
+	
 	
 	@endpoint=responce[:endpoint]
 	@options=responce[:options]
@@ -13,13 +13,13 @@ end
 
 def next_page
 
-	if @total>@responce.length
+	while @total>@responce.length
 
 		self.add_next_page( SpotifyApiCall.call_s(@endpoint, @options ))
 
-		#binding.pry
+		
 
-		self.next_page
+		
 		
 	end
 
