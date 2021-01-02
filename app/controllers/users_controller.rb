@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 		#@artists=@user.token.get_users_artists
 
 		#@artists=SpotifyResponce.new(SpotifyApiCall.call(user:@user) ).responce
-		@artists=RandomPlaylist.generate(@user)
+		@albums=RandomPlaylist.generate(@user)
 
 		#binding.pry
 		

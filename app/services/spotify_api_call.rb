@@ -1,6 +1,6 @@
 class SpotifyApiCall
 
-	attr_reader :get_artists, :endpoint, :access_token
+	attr_reader :get_items, :endpoint, :access_token, :options
 	
 	def self.call_s(endpoint, options) 
 		
@@ -12,15 +12,15 @@ class SpotifyApiCall
 				req.headers['Authorization']='Bearer '+ call_to_spotify.access_token
 				req.headers['Content-Type']='application/json'
 				req.headers['Accept']='application/json'
-				call_to_spotify.get_artists.call(req)
+				call_to_spotify.get_items.call(req)
 				
 
 		end
 
 			#binding.pry
-			responce=JSON.parse(responce.body)
-			
-			responce[:endpoint]=:artists
+			responce=JSON.parse(responce.body) 
+			#binding.pry
+			responce[:endpoint]=endpoint
 			
 			responce[:options]=options
 
@@ -29,10 +29,8 @@ class SpotifyApiCall
 
 	def initialize(options)
 
-		@access_token=options[:access_token]
-		@cursor=options[:cursor]
-		@offset=options[:offset]
-		@artists_id=[:artists_id]
+		@access_token=options.token 
+		@options=options
 		@endpoint=nil
 		
 	end
@@ -41,13 +39,13 @@ class SpotifyApiCall
 
 		@endpoint='https://api.spotify.com/v1/me/following?'
 
-		@get_artists=Proc.new do |req|
+		@get_items=Proc.new do |req|
 
 			req.params['type']='artist'
 				req.params['limit']='50'
 				
-				if @cursor
-					req.params['after']=@cursor
+				if @options.cursor
+					req.params['after']=@options.cursor
 				end
 			
 		end
@@ -57,7 +55,19 @@ class SpotifyApiCall
 	end
 
 	def albums
-		
+		artist_id=@options.artists_id.delete_at 0 
+		@endpoint="https://api.spotify.com/v1/artists/#{artist_id}/albums"
+		@get_items=Proc.new do |req|
+
+			req.params['limit']='50'
+
+			if @options.offset!=0
+					req.params['offset']=@options.offset
+				end
+
+			
+		end
+		self
 	end
 
 end

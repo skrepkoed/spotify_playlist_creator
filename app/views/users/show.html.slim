@@ -5,13 +5,14 @@ h1
 	= @user.login
 
 
-p = @artists.length
+p = @albums.length
 ul
-  - @artists.each do |artist|
-    li.artist
+  - @albums.each do |album|
+    li.album
       div
         | Name: 
-        = artist['name']
+        = album.each{|i| i}
+        br
 	
 
 

@@ -1,19 +1,13 @@
 class SpotifyResponce
 
-attr_accessor :type , :responce, :cursor, :total
+attr_accessor :type , :responce,  :total, :options
 
 def initialize(responce)
-	@user=responce.delete(:user)
-	@type=responce.keys[0]
-	@responce=responce[@type]['items']
-	#@cursor=responce [@type]['cursors']['after']
-	@total=responce[@type]['total']
-	@options=responce[:options]
-	@options[:cursor]=responce [@type]['cursors']['after']
+	@user=responce.delete(:user) ###
+	
 	@endpoint=responce[:endpoint]
-
-	self.next_page
-
+	@options=responce[:options]
+	#binding.pry
 	
 end
 
@@ -29,21 +23,17 @@ def next_page
 		
 	end
 
-	
-	
-end
-
-def random_items(number)
-
-	@responce=@responce.shuffle.first(number)
+	self.random_items
 	
 end
 
-def add_next_page(responce)
-	@type=responce.keys[0]
-	@responce+=responce[@type]['items']
-	@options[:cursor] =responce [@type]['cursors']['after']
+def random_items
+	#number=('number_'+@type).to_sym
+
+	@responce=@responce.shuffle.first(@options.number)
 	
 end
+
+
 
 end
