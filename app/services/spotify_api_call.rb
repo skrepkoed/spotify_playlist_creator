@@ -6,18 +6,19 @@ class SpotifyApiCall
 		
 		call_to_spotify=new(options).send(endpoint)
 		
-		responce=Faraday.get(call_to_spotify.endpoint) do |req|
+		proc1=Proc.new do |req|
 
 			
 				req.headers['Authorization']='Bearer '+ call_to_spotify.access_token
 				req.headers['Content-Type']='application/json'
-				req.headers['Accept']='application/json'
+				#req.headers['Accept']='application/json'
 				call_to_spotify.paging_items.call(req)
 				
 
 		end
-
-			
+		
+		responce=Faraday.send(options.verb,(call_to_spotify.endpoint),&proc1)
+		#binding.pry	
 			responce=JSON.parse(responce.body) 
 			
 			responce[:endpoint]=endpoint #!!!!!
@@ -25,7 +26,7 @@ class SpotifyApiCall
 			responce[:options]=options
 
 			responce
-			#binding.pry
+
 	end
 
 	def initialize(options)
@@ -87,6 +88,33 @@ class SpotifyApiCall
 		@endpoint="https://api.spotify.com/v1/albums/#{item_id}/tracks"
 		self
 		
+	end
+
+	def create_playlist
+		spotify_user_id=@options.spotify_user_id
+		
+		@endpoint="https://api.spotify.com/v1/users/#{spotify_user_id}/playlists"
+
+		@paging_items=Proc.new do |req|
+
+			req.body={'name'=> @options.name}.to_json 
+			
+		end
+		self
+	end
+
+	def add_items_to_playlist
+
+		playlist_id=@options.playlist_id
+
+		@endpoint="https://api.spotify.com/v1/playlists/#{playlist_id}/tracks"
+
+		@paging_items=Proc.new do |req|
+
+			req.body=@options.songs
+			
+		end
+		self
 	end
 
 end
