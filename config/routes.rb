@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
+ 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
+  resources :playlists, only:[:new,:create,:index] do 
+
+    collection do
+      get 'artist/:id', to: 'playlists#albums'
+      get 'album/:id' , to: 'playlists#tracks'
+     
+    end
+
+  end
   resources :users , only:[:edit, :show, :create, :destroy,:new]
 
   get '/sign in', to: 'session#new'

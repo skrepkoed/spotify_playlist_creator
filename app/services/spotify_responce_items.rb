@@ -6,7 +6,7 @@ def initialize(responce)
 	
 	super(responce)	
 	
-	@responce=responce['items'].map{|i| i['id']}
+	@responce=responce['items'].map{|i| SpotifyItems.new(i)}
 	@total=responce['total']
 	
 	@options.offset+=@options.limit	
@@ -19,7 +19,7 @@ def initialize(responce)
 end
 
 def add_next_page(responce)
-	@responce+=responce['items'].map{|i| i['id']}
+	@responce+=responce['items'].map{|i| SpotifyItems.new(i)}
 	@options.offset+=@options.limit	
 	
 end
@@ -34,7 +34,7 @@ def next_item
 	while @options.items_id.length>0
 
 		responce=SpotifyApiCall.call_s(@endpoint, @options )
-		@responce=responce['items'].map{|i| i['id']}
+		@responce=responce['items'].map{|i| SpotifyItems.new(i)}
 		@options=responce[:options]
 		@total=responce['total']
 		

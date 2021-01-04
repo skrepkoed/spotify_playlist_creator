@@ -7,7 +7,7 @@ def initialize(responce)
 	
 	@endpoint=responce[:endpoint]
 	@options=responce[:options]
-	#binding.pry
+	
 	
 end
 
@@ -28,7 +28,7 @@ def next_page
 end
 
 def random_items
-	#number=('number_'+@type).to_sym
+	
 
 	@responce=@responce.shuffle.first(@options.number)
 	

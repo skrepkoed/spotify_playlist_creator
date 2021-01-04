@@ -4,16 +4,13 @@ h1
 	| Hello 
 	= @user.login
 
-
-p = @albums.length
-ul
-  - @albums.each do |album|
-    li.album
-      div
-        | Name: 
-        = album.each{|i| i}
-        br
+p 
 	
+	= link_to 'Create new playlist!', new_playlist_path
+	
+
+
+
 
 
 		

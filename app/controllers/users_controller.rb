@@ -22,16 +22,9 @@ class UsersController < ApplicationController
 	def show
 
 		@user=User.find(params[:id])
-
-		@session=session
-
-		#@artists=@user.token.get_users_artists
-
-		#@artists=SpotifyResponce.new(SpotifyApiCall.call(user:@user) ).responce
-		@albums=RandomPlaylist.generate(@user)
-
-		#binding.pry
 		
+		#@playlist=RandomPlaylist.generate(@user)
+
 	end
 
 	
