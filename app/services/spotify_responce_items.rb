@@ -3,6 +3,7 @@ class SpotifyResponceItems<SpotifyResponce
 attr_accessor :responce_total
 
 def initialize(options)
+	
 	@common_options=options
 	@options=options.item_option
 	@type=@options.endpoint

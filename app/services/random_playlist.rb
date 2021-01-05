@@ -9,11 +9,9 @@ def self.generate(options)
 	albums=SpotifyResponceItems.new(artists).options
 	
 	songs=SpotifyResponceItems.new(albums).responce_total
-	songs=songs.flatten
-	#[artists,albums,songs].flatten
-	binding.pry
+	songs=songs.flattens
 	new(songs, options.playlist_option)
-	[artists,albums,songs].flatten
+	
 end
 
 def initialize(songs, options)

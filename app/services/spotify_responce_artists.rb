@@ -19,6 +19,7 @@ end
 
 
 def options
+	self.random_items
 	artists_id=@responce.map { |artist| artist.id  }
 	@common_options.item_option.endpoint= :albums
 	@common_options.item_option.items_id=artists_id

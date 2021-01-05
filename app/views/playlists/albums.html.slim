@@ -1,0 +1,11 @@
+
+
+h1 
+	=params[:name]+' ' 
+	|albums
+
+div
+	ul
+	-@albums.each do |album|
+		li 
+			=link_to album[0], album_playlists_path(album[0],album[1])

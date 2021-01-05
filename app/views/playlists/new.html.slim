@@ -17,3 +17,10 @@ div
 		=form.text_field :number_songs
 		br 
 		=submit_tag 'Create playlist'
+
+div
+	ul
+	-@artists.each do |artist|
+		li 
+			=link_to( artist[0], artist_playlists_path(artist[0], artist[1]))
+

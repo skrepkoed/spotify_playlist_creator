@@ -7,7 +7,6 @@ def initialize(params=nil)
 	super(params)
 	
 	unless params==nil
-		#binding.pry
 		user=User.find params[:user_id]
 		user=user 
 		token=user.token.access_token
@@ -41,4 +40,6 @@ def configure_playlist(token,params,spotify_user_id)
 	@playlist_option=OpenStruct.new(playlist_options)
 	
 end
+
+
 end

@@ -16,8 +16,6 @@ def next_page
 		self.add_next_page( SpotifyApiCall.call_s(@type, @options ))	
 		
 	end
-
-	self.random_items
 	
 end
 

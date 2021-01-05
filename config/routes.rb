@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   resources :playlists, only:[:new,:create,:index] do 
 
     collection do
-      get 'artist/:id', to: 'playlists#albums'
-      get 'album/:id' , to: 'playlists#tracks'
+      get 'artist/:name/:id', to: 'playlists#albums', as: 'artist'
+      get 'album/:name/:id' , to: 'playlists#tracks', as: 'album'
      
     end
 

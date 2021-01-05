@@ -1,0 +1,9 @@
+h1 
+	=params[:name]+' ' 
+	|tracks
+
+div
+	ul
+	-@songs.each do |song|
+		li 
+			=song
