@@ -1,9 +1,8 @@
 class Playlist < ApplicationRecord
-attr_accessor :artist_option, :album_option, :song_option, :playlist_option
+attr_accessor :artist_option, :item_option,  :playlist_option
 	belongs_to :user
 
 def initialize(params=nil)
-	#@artist_option, @album_option, @song_option, @playlist_option = artist_option,album_option,song_option,playlist_option
 	
 	super(params)
 	
@@ -13,9 +12,8 @@ def initialize(params=nil)
 		user=user 
 		token=user.token.access_token
 		spotify_user_id=user.token.spotify_user_id
-		configure_artist(token, number_artists)
-		configure_album(token, number_albums)
-		configure_song(token, number_songs)
+		configure_artist(token, {artists:number_artists})
+		configure_item(token, {albums:number_albums,songs:number_songs})
 		configure_playlist(token,playlist_name,spotify_user_id) ###
 
 	end
@@ -30,18 +28,10 @@ def configure_artist(token, params)
 	
 end
 
-def configure_album(token, params)
-	album_options={offset:0,token:token,number:params, endpoint: :albums, items_id:nil,current_item:nil, limit: 50,verb: :get}
+def configure_item(token, params)
+	item_options={offset:0,token:token,number:params, endpoint: nil, items_id:nil,current_item:nil, limit: 50,verb: :get}
 
-	@album_option=OpenStruct.new(album_options)
-end
-
-def configure_song(token,params)
-
-	song_options={offset:0,token:token,number:params, endpoint: :songs, items_id:nil,current_item:nil, limit: 50,verb: :get}
-
-	@song_option=OpenStruct.new(song_options)
-	
+	@item_option=OpenStruct.new(item_options)
 end
 
 def configure_playlist(token,params,spotify_user_id)

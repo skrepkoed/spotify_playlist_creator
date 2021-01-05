@@ -1,6 +1,6 @@
 
 
-class SpotifyItems<OpenStruct
+class SpotifyItem<OpenStruct
 
 	def initialize(element)
 

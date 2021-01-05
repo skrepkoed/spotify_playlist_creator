@@ -4,19 +4,14 @@ attr_reader :artists, :albums , :songs, :user_id
 
 def self.generate(options)
 
-	artists=SpotifyResponceArtists.new(SpotifyApiCall.call_s(:artists, options.artist_option) ).responce
-
-	options.album_option.items_id=artists.map { |artist| artist.id  }
+	artists=SpotifyResponceArtists.new(options).options
 	
-	albums=SpotifyResponceItems.new(SpotifyApiCall.call_s(:albums,options.album_option)).responce_total
+	albums=SpotifyResponceItems.new(artists).options
 	
-	albums=albums.flatten
-	options.song_option.items_id=albums.map { |album| album.id  }  
-	
-	songs=SpotifyResponceItems.new(SpotifyApiCall.call_s(:songs,options.song_option)).responce_total
+	songs=SpotifyResponceItems.new(albums).responce_total
 	songs=songs.flatten
-	[artists,albums,songs].flatten
-	
+	#[artists,albums,songs].flatten
+	binding.pry
 	new(songs, options.playlist_option)
 	[artists,albums,songs].flatten
 end

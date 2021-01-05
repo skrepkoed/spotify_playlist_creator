@@ -1,12 +1,10 @@
 class SpotifyResponce
 
-attr_accessor :type , :responce,  :total, :options
+attr_accessor :type , :raw_responce, :total, :options
 
-def initialize(responce)
-	
-	
-	@endpoint=responce[:endpoint]
-	@options=responce[:options]
+def initialize(endpoint, options )
+
+	@raw_responce=SpotifyApiCall.call_s(endpoint, options)
 	
 	
 end
@@ -15,11 +13,7 @@ def next_page
 
 	while @total>@responce.length
 
-		self.add_next_page( SpotifyApiCall.call_s(@endpoint, @options ))
-
-		
-
-		
+		self.add_next_page( SpotifyApiCall.call_s(@type, @options ))	
 		
 	end
 
@@ -27,10 +21,12 @@ def next_page
 	
 end
 
+
+
 def random_items
 	
 
-	@responce=@responce.shuffle.first(@options.number)
+	@responce=@responce.shuffle.first(@options.number[@type])
 	
 end
 

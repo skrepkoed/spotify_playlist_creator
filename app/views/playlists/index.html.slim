@@ -1,0 +1,23 @@
+h1 Created playlists
+table
+	thead 
+		tr
+			th
+				|Playlist Name
+			th 
+				|Number artists
+			th
+				|Number albums
+			th 
+				|Number songs
+	tbody
+	
+	-@playlists.each do |playlist|
+		tr
+			td =playlist.playlist_name
+			td =playlist.number_artists
+			td =playlist.number_albums
+			td =playlist.number_songs
+
+
+	
