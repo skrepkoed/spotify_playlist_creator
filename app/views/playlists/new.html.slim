@@ -23,4 +23,6 @@ div
 	-@artists.each do |artist|
 		li 
 			=link_to( artist[0], artist_playlists_path(artist[0], artist[1]))
+			br
+			= artist[2]
 

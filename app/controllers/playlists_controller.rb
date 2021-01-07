@@ -1,7 +1,8 @@
 class PlaylistsController < ApplicationController
+  before_action :require_login, :current_user
   def index
 
-  	@user=User.find session[:user_id]
+  	#@user=User.find session[:user_id]
 
   	@playlists=@user.playlists
 
@@ -10,11 +11,10 @@ class PlaylistsController < ApplicationController
 
   def new
   @playlist=Playlist.new
-  @user=User.find session[:user_id]
-  token=@user.token.access_token
-  @playlist.configure_artist(token,nil)
-  @artists=SpotifyResponceArtists.new(@playlist).responce 
-  @artists.map!{|artist| [artist.name, artist.id] }
+  
+  @list=Playlist.list(session[:user_id],:artists)
+  
+  @artists=SpotifyResponceArtists.new(@list).filtred_responce{|artist| [artist.name, artist.id, artist.genres.to_s] }
   
   end
 
@@ -30,31 +30,16 @@ class PlaylistsController < ApplicationController
   end
 
   def albums  
-  @playlist=Playlist.new
-  @user=User.find session[:user_id]
-  token=@user.token.access_token
-  @playlist.configure_item(token,nil)
-
-  @playlist.item_option.items_id=[params[:id]]
-  @playlist.item_option.endpoint= :albums
-  #binding.pry
-  @albums=SpotifyResponceItems.new(@playlist).responce_total.flatten
+  @list=Playlist.list(session[:user_id],:albums,params)
   
-  @albums.map!{|album| [album.name, album.id] }
+  @albums=SpotifyResponceItems.new(@list).filtred_responce{|album| [album.name, album.id] }
+  
   end
 
   def tracks
-  @playlist=Playlist.new
-  @user=User.find session[:user_id]
-  token=@user.token.access_token
-  @playlist.configure_item(token,nil)
-
-  @playlist.item_option.items_id=[params[:id]]
-  @playlist.item_option.endpoint= :songs
-  #binding.pry
-  @songs=SpotifyResponceItems.new(@playlist).responce_total.flatten
+  @list=Playlist.list(session[:user_id],:songs, params)
   
-  @songs.map!{|song| song.name }
+  @songs=SpotifyResponceItems.new(@list).filtred_responce{|song| song.name }
   	
   end
 

@@ -1,6 +1,6 @@
 class SpotifyResponce
 
-attr_accessor :type , :raw_responce, :total, :options
+attr_accessor :type , :raw_responce, :total, :options, :responce_total, :responce 
 
 def initialize(endpoint, options )
 
@@ -24,7 +24,20 @@ end
 def random_items
 	
 
-	@responce=@responce.shuffle.first(@options.number[@type])
+	@responce=@responce.shuffle.first(@options.number[@type])	
+end
+
+def filtred_responce(&block)
+
+	if responce 
+
+	 	responce.map(&block)
+
+	else
+
+	 	responce_total.flatten.map(&block)
+	end
+
 	
 end
 

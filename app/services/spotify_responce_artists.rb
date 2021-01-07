@@ -1,5 +1,5 @@
 class SpotifyResponceArtists<SpotifyResponce
-attr_accessor :responce 
+
 
 def initialize(options)
 	@common_options=options

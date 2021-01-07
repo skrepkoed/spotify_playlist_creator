@@ -2,6 +2,32 @@ class Playlist < ApplicationRecord
 attr_accessor :artist_option, :item_option,  :playlist_option
 	belongs_to :user
 
+def self.list(user_id, type, params=nil)
+
+	playlist=new
+	user=User.find user_id
+	token=user.token.access_token
+
+	if type ==:artists
+
+		playlist.configure_artist(token,nil)
+
+		elsif type == :albums || type == :songs
+
+			playlist.configure_item(token,nil)
+	 		playlist.item_option.items_id=[params[:id]]
+
+		 		case type
+			 		when :albums then playlist.item_option.endpoint= :albums
+			 		when :songs then playlist.item_option.endpoint= :songs 		
+		 		end
+				
+			
+	end
+
+	playlist	
+end
+
 def initialize(params=nil)
 	
 	super(params)

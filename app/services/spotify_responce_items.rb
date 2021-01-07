@@ -1,6 +1,6 @@
 class SpotifyResponceItems<SpotifyResponce
 
-attr_accessor :responce_total
+
 
 def initialize(options)
 	
@@ -42,6 +42,7 @@ def next_item
 end
 
 def options
+	self.random_items
 	albums_id=@responce_total.flatten.map { |album| album.id  }
 	@common_options.item_option.endpoint= :songs
 	@common_options.item_option.items_id=albums_id

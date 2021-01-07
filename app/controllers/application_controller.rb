@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
 	#before_action :require_login
 	private
 
+	def current_user
+
+		@user=User.find session[:user_id]
+		
+	end
 	def require_login
 		#binding.pry 
 		unless session[:user_id]
