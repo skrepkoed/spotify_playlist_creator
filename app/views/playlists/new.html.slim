@@ -2,7 +2,7 @@ h1 Playlists#new,
 p Find me in app/views/playlists/new.html.slim
 
 div 
-	= form_with model:@playlist, method: 'post' do |form|
+	= form_with model:@playlist, url:'/playlists/albums', method: 'post',local: true do |form|
 
 		=form.label :playlist_name,'Name'
 		=form.text_field :playlist_name
@@ -16,13 +16,17 @@ div
 		=form.label :songs, 'Number of tracks in your playlist'
 		=form.text_field :number_songs
 		br 
-		=submit_tag 'Create playlist'
+		
+	
+		=form.collection_check_boxes :spotify_ids, @artists, :id, :name_with_genres do |b|
+			p
+				= b.label(:"data-value" => b.value) { b.check_box + b.text[0] }
+				br
+				= b.text[1]
 
-div
-	ul
-	-@artists.each do |artist|
-		li 
-			=link_to( artist[0], artist_playlists_path(artist[0], artist[1]))
-			br
-			= artist[2]
+		=submit_tag 'Create playlist'  
+		=submit_tag 'Pick an Artist'
+
+		
+
 

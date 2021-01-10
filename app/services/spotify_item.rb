@@ -8,6 +8,12 @@ class SpotifyItem<OpenStruct
 		super(element)
 	end
 
+	def name_with_genres
+
+		[name,genres]
+		
+	end
+
 
 end
 

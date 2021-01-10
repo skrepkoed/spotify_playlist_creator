@@ -1,15 +1,26 @@
 class SpotifyResponceArtists<SpotifyResponce
-
+	attr_accessor :artists_id
 
 def initialize(options)
 	@common_options=options
 	@options=options.artist_option
 	@type=@options.endpoint
-	super(@type, @options)
-	@total=@raw_responce['artists'] ['total']
-	@responce=@raw_responce['artists']['items'].map! { |e| SpotifyItem.new(e)  }
-	@options.cursor=@raw_responce ['artists']['cursors']['after']
-	self.next_page
+	#####where if begins
+	if @common_options.spotify_ids
+
+		@artists_id=@common_options.spotify_ids
+
+	else
+
+		super(@type, @options)
+		@total=@raw_responce['artists'] ['total']
+		@responce=@raw_responce['artists']['items'].map! { |e| SpotifyItem.new(e)  }
+		@options.cursor=@raw_responce ['artists']['cursors']['after']
+		self.next_page
+		
+	end
+
+	
 end
 
 def add_next_page(responce)
@@ -19,10 +30,12 @@ end
 
 
 def options
+	unless  @artists_id
 	self.random_items
-	artists_id=@responce.map { |artist| artist.id  }
+	@artists_id=@responce.map { |artist| artist.id  }
+	end
 	@common_options.item_option.endpoint= :albums
-	@common_options.item_option.items_id=artists_id
+	@common_options.item_option.items_id=@artists_id
 	@common_options	
 end
 

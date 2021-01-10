@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   resources :playlists, only:[:new,:create,:index] do 
 
     collection do
-      get 'artist/:name/:id', to: 'playlists#albums', as: 'artist' #, constraints: lambda{|request| }
-      get 'album/:name/:id' , to: 'playlists#tracks', as: 'album'
+      post 'albums', to: 'playlists#albums', as: 'artist' #, constraints: lambda{|request| }
+      post 'songs' , to: 'playlists#songs', as: 'album'
      
     end
 
