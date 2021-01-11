@@ -23,6 +23,12 @@ class PlaylistsController < ApplicationController
 
   #paths={'Pick an Artist'=> artist_playlists_path,'Pick an Album'=>album_playlists_path}
   
+  #playlist_options.delete :endpoint
+  
+  options=Playlist.create(playlist_params) 
+  #binding.pry 
+  playlist=RandomPlaylist.generate(options)   
+  redirect_to user_path session[:user_id]
   end
 
   def albums
@@ -40,14 +46,14 @@ class PlaylistsController < ApplicationController
 
   def playlist_params
     
-    params[:user_id]=session[:user_id]
-    params[:playlist][:endpoint]=params[:action]
+    params[:playlist][:user_id]=session[:user_id]
+    
   	params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
   	
   end
 
   def tree(path=nil)
-    
+    params[:playlist][:endpoint]=params[:action]
     params=playlist_params
 
     

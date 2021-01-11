@@ -55,7 +55,7 @@ def options
 
 	unless @albums_id
 		self.random_items
-		@albums_id=@responce_total.flatten.map { |album| album.id  }
+		@common_options=@responce_total.flatten.map { |album| album.id  }
 	end
 	@common_options.item_option.endpoint= :songs
 	@common_options.item_option.items_id=@albums_id

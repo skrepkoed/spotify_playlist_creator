@@ -3,7 +3,7 @@
 h1 Songs
 
 div 
-	= form_with model:@playlist, url:'/playlists/tracks', method: 'post', local: true do |form|
+	= form_with model:@playlist, url:playlists_path, method: 'post', local: true do |form|
 
 		=form.label :playlist_name,'Name'
 		=form.text_field :playlist_name
@@ -29,4 +29,4 @@ div
 				
 
 		=submit_tag 'Create playlist'  
-		=submit_tag 'Pick an Artist'
+		
