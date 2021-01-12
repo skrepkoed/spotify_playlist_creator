@@ -4,15 +4,8 @@ h1 Songs
 
 div 
 	= form_with model:@playlist, url:playlists_path, method: 'post', local: true do |form|
-
 		=form.label :playlist_name,'Name'
 		=form.text_field :playlist_name
-		br
-		=form.label :number_artists, 'Number of artists in your playlist'
-		=form.text_field :number_artists
-		br
-		=form.label :albums, 'Number of albums in your playlist'
-		=form.text_field :number_albums
 		br
 		=form.label :songs, 'Number of tracks in your playlist'
 		=form.text_field :number_songs

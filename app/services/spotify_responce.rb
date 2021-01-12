@@ -23,8 +23,13 @@ end
 
 def random_items
 	
-
-	@responce=@responce.shuffle.first(@options.number[@type])	
+	if responce&&responce_total
+	@responce_total=@responce_total.flatten.shuffle.first(@options.number[@type])
+	
+	else
+	@responce=@responce.shuffle.first(@options.number[@type])
+	
+	end 	
 end
 
 def filtred_responce(&block)

@@ -6,7 +6,9 @@ def initialize(options)
 	@options=options.artist_option
 	@type=@options.endpoint
 	#####where if begins
-	if @common_options.spotify_ids
+	unless @common_options.spotify_ids.empty?
+
+
 
 		@artists_id=@common_options.spotify_ids
 
@@ -14,6 +16,7 @@ def initialize(options)
 
 		super(@type, @options)
 		@total=@raw_responce['artists'] ['total']
+		
 		@responce=@raw_responce['artists']['items'].map! { |e| SpotifyItem.new(e)  }
 		@options.cursor=@raw_responce ['artists']['cursors']['after']
 		self.next_page
@@ -30,12 +33,14 @@ end
 
 
 def options
-	unless  @artists_id
-	self.random_items
-	@artists_id=@responce.map { |artist| artist.id  }
-	end
+	
 	@common_options.item_option.endpoint= :albums
 	@common_options.item_option.items_id=@artists_id
+	unless  @artists_id
+		#binding.pry
+	self.random_items
+	@common_options.item_option.items_id=@responce.map { |artist| artist.id  }
+	end
 	@common_options	
 end
 

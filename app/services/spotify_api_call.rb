@@ -11,14 +11,14 @@ class SpotifyApiCall
 			
 				req.headers['Authorization']='Bearer '+ call_to_spotify.access_token
 				req.headers['Content-Type']='application/json'
-				#req.headers['Accept']='application/json'
+				
 				call_to_spotify.paging_items.call(req)
 				
 
 		end
 		
 		responce=Faraday.send(options.verb,(call_to_spotify.endpoint),&proc1)
-		#binding.pry	
+			
 			responce=JSON.parse(responce.body) 
 			
 			responce[:endpoint]=endpoint #!!!!!

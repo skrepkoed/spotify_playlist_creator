@@ -7,8 +7,8 @@ def initialize(options)
 	@common_options=options
 	@options=options.item_option
 	@type=@options.endpoint
-	if @common_options.spotify_ids
-
+	unless @common_options.spotify_ids.empty?
+		
 		@albums_id=@common_options.spotify_ids
 
 	else
@@ -37,7 +37,7 @@ def next_item
 	@responce_total<<@responce
 
 	while @options.items_id.length>0
-		#binding.pry
+		
 		responce=SpotifyApiCall.call_s(@type, @options )
 		@responce=responce['items'].map{|i| SpotifyItem.new(i)}
 		@options=responce[:options]
@@ -53,12 +53,14 @@ end
 
 def options
 
-	unless @albums_id
-		self.random_items
-		@common_options=@responce_total.flatten.map { |album| album.id  }
-	end
+	
 	@common_options.item_option.endpoint= :songs
 	@common_options.item_option.items_id=@albums_id
+	unless @albums_id
+		self.random_items
+
+		@common_options.item_option.items_id=@responce_total.flatten.map { |album| album.id  }
+	end
 	@common_options	
 	
 end

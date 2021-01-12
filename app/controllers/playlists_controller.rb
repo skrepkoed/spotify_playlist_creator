@@ -2,7 +2,7 @@ class PlaylistsController < ApplicationController
   before_action :require_login, :current_user
   def index
 
-  	#@user=User.find session[:user_id]
+  	
 
   	@playlists=@user.playlists
 
@@ -20,13 +20,9 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-
-  #paths={'Pick an Artist'=> artist_playlists_path,'Pick an Album'=>album_playlists_path}
-  
-  #playlist_options.delete :endpoint
   
   options=Playlist.create(playlist_params) 
-  #binding.pry 
+   
   playlist=RandomPlaylist.generate(options)   
   redirect_to user_path session[:user_id]
   end
@@ -35,7 +31,7 @@ class PlaylistsController < ApplicationController
   
   tree
   @albums 
-  #binding.pry
+  
   end
 
   def songs	
@@ -47,24 +43,33 @@ class PlaylistsController < ApplicationController
   def playlist_params
     
     params[:playlist][:user_id]=session[:user_id]
-    
+    params[:playlist][:spotify_ids].delete_if{|i| i=='' }
   	params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
   	
   end
 
-  def tree(path=nil)
-    params[:playlist][:endpoint]=params[:action]
-    params=playlist_params
+  def default_params
 
+    params[:number_artists]||=1
+    params[:number_albums]||=1
+    params[:number_songs]||=1
+  end
+
+  def tree(path=nil)
+      endpoint=params[:action].to_sym
+      params=playlist_params
+      
+   
+    if params[:spotify_ids][0]&&(params[:number_albums]!=''||params[:number_songs]!='')
+
+      default_params
     
-    if params[:spotify_ids]&&(params[:number_albums]!=''||params[:number_songs]!='')
-    
-      elsif params[:spotify_ids]
+      elsif params[:spotify_ids][0]
         
-        params[:spotify_ids].delete_if{|i| i=='' }
+        
         
         @playlist=Playlist.new
-        @list=Playlist.list(session[:user_id],params[:endpoint].to_sym,params)
+        @list=Playlist.list(session[:user_id],endpoint,params)
         
         @albums=SpotifyResponceItems.new(@list).responce_total 
 
@@ -74,15 +79,19 @@ class PlaylistsController < ApplicationController
 
       elsif params[:number_artists]==''||params[:number_albums]==''||params[:number_songs]==''
 
+        default_params
+        
         options=Playlist.create(playlist_params)  
         playlist=RandomPlaylist.generate(options)
 
 
       else
-        ###default params
+        default_params
+        
         options=Playlist.create(playlist_params)  
+       
         playlist=RandomPlaylist.generate(options)            
-
+        redirect_to user_path session[:user_id]
     end
     
   end

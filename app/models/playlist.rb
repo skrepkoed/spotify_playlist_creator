@@ -17,7 +17,7 @@ def self.list(user_id, type, params=nil)
 			playlist.configure_item(token,nil)
 			
 			spotify_ids=params[:spotify_ids]
-			#spotify_ids.delete_at 0
+			
 	 		playlist.item_option.items_id=spotify_ids
 	 			
 		 		case type
@@ -36,31 +36,17 @@ def initialize(params=nil)
 	
 	super(params)
 
-	if params
-
-		if number_artists==nil
-
-			number_artists=params[:spotify_ids].length
-
-		elsif number_albums==nil
-
-			number_albums=params[:spotify_ids].length
-
-		elsif number_songs==nil
-
-			number_songs=params[:spotify_ids].length	
-			
-		end
-	end
+	@spotify_ids=[]
 	
 	unless params==nil
+		
 		user=User.find params[:user_id]
 		user=user 
 		token=user.token.access_token
 		spotify_user_id=user.token.spotify_user_id
 		configure_artist(token, {artists:number_artists})
 		configure_item(token, {albums:number_albums,songs:number_songs})
-		@spotify_id=params[:spotify_ids]
+		@spotify_ids=params[:spotify_ids]
 		configure_playlist(token,playlist_name,spotify_user_id) ###
 
 	end
