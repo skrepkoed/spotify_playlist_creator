@@ -7,12 +7,13 @@ def initialize(options)
 	@common_options=options
 	@options=options.item_option
 	@type=@options.endpoint
+	@names=@options.names
+	
 	unless @common_options.spotify_ids.empty?
-		
-		@albums_id=@common_options.spotify_ids
+
+		@common_options.item_option.items_id=@common_options.spotify_ids
 
 	else
-
 		super(@type, @options)
 		
 		@responce=@raw_responce['items'].map{|i| SpotifyItem.new(i)}
@@ -24,6 +25,8 @@ def initialize(options)
 		self.next_item
 
 	end
+
+	
 end
 
 def add_next_page(responce)
@@ -55,13 +58,20 @@ def options
 
 	
 	@common_options.item_option.endpoint= :songs
-	@common_options.item_option.items_id=@albums_id
-	unless @albums_id
+	
+	unless @common_options.item_option.items_id
 		self.random_items
 
 		@common_options.item_option.items_id=@responce_total.flatten.map { |album| album.id  }
 	end
 	@common_options	
+	
+end
+
+def responce_total
+	hash=Hash.new
+	@responce_total.each_with_index{|i,k| hash[@names[k]]=i }
+	hash
 	
 end
 

@@ -12,9 +12,11 @@ div
 		br 
 		
 	
-		-@albums. each do |album|
+		-@albums. each do |name,album|
+
+			h2 =name
 			
-			=form.collection_check_boxes :spotify_ids, album, :id, :name do |b|
+			=form.collection_check_boxes :spotify_ids, album, :name_with_id, :name do |b|
 				p
 					= b.label(:"data-value" => b.value) { b.check_box }
 					= b.text

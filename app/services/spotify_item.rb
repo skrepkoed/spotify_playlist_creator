@@ -14,6 +14,12 @@ class SpotifyItem<OpenStruct
 		
 	end
 
+	def name_with_id
+
+		{name:name,id:id}.to_json
+		
+	end
+
 
 end
 

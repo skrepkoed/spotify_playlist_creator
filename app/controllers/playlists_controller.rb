@@ -44,8 +44,14 @@ class PlaylistsController < ApplicationController
     
     params[:playlist][:user_id]=session[:user_id]
     params[:playlist][:spotify_ids].delete_if{|i| i=='' }
-  	params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
-  	
+  	#params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
+    params[:playlist][:spotify_ids].map!{|e| SpotifyItem.new(JSON.parse(e))}
+    
+    params[:playlist][:names]=[]
+    params[:playlist][:spotify_ids].each{|e| params[:playlist][:names]<<e.name }
+    params[:playlist][:spotify_ids].map! { |e| e.id  }
+    #binding.pry
+    params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[],names:[])
   end
 
   def default_params
@@ -72,10 +78,7 @@ class PlaylistsController < ApplicationController
         @list=Playlist.list(session[:user_id],endpoint,params)
         
         @albums=SpotifyResponceItems.new(@list).responce_total 
-
-        
-
-
+        #binding.pry
 
       elsif params[:number_artists]==''||params[:number_albums]==''||params[:number_songs]==''
 

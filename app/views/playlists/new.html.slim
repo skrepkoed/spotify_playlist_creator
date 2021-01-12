@@ -18,7 +18,7 @@ div
 		br 
 		
 	
-		=form.collection_check_boxes :spotify_ids, @artists, :id, :name_with_genres do |b|
+		=form.collection_check_boxes :spotify_ids, @artists, :name_with_id, :name_with_genres do |b|
 			p
 				= b.label(:"data-value" => b.value) { b.check_box + b.text[0] }
 				br

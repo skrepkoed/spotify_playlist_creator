@@ -1,5 +1,5 @@
 class Playlist < ApplicationRecord
-attr_accessor :artist_option, :item_option,  :playlist_option, :spotify_ids
+attr_accessor :artist_option, :item_option,  :playlist_option, :spotify_ids, :names
 	belongs_to :user
 
 def self.list(user_id, type, params=nil)
@@ -19,7 +19,8 @@ def self.list(user_id, type, params=nil)
 			spotify_ids=params[:spotify_ids]
 			
 	 		playlist.item_option.items_id=spotify_ids
-	 			
+	 		
+	 		playlist.item_option.names=params[:names]	
 		 		case type
 			 		when :albums then playlist.item_option.endpoint= :albums
 			 		when :songs then playlist.item_option.endpoint= :songs 		
@@ -62,7 +63,7 @@ def configure_artist(token, params)
 end
 
 def configure_item(token, params)
-	item_options={offset:0,token:token,number:params, endpoint: nil, items_id:nil,current_item:nil, limit: 50,verb: :get}
+	item_options={offset:0,token:token,number:params, endpoint: nil, items_id:nil,current_item:nil, limit: 50,names: nil, verb: :get}
 
 	@item_option=OpenStruct.new(item_options)
 end
