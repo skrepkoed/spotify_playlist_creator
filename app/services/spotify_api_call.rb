@@ -74,7 +74,7 @@ class SpotifyApiCall
 
 			
 		end
-		item_id
+		item_id.id
 	end
 
 	def albums

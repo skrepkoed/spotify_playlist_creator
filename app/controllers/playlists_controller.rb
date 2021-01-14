@@ -20,8 +20,10 @@ class PlaylistsController < ApplicationController
   end
 
   def create
+  params=playlist_params
+  params[:spotify_ids].map!{|e| SpotifyItem.new(JSON.parse(e))}
+  options=Playlist.create(params) 
   
-  options=Playlist.create(playlist_params) 
    
   playlist=RandomPlaylist.generate(options)   
   redirect_to user_path session[:user_id]
@@ -45,13 +47,16 @@ class PlaylistsController < ApplicationController
     params[:playlist][:user_id]=session[:user_id]
     params[:playlist][:spotify_ids].delete_if{|i| i=='' }
   	#params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
-    params[:playlist][:spotify_ids].map!{|e| SpotifyItem.new(JSON.parse(e))}
     
+=begin
     params[:playlist][:names]=[]
     params[:playlist][:spotify_ids].each{|e| params[:playlist][:names]<<e.name }
     params[:playlist][:spotify_ids].map! { |e| e.id  }
     #binding.pry
-    params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[],names:[])
+=end 
+    params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
+    
+
   end
 
   def default_params
@@ -64,7 +69,8 @@ class PlaylistsController < ApplicationController
   def tree(path=nil)
       endpoint=params[:action].to_sym
       params=playlist_params
-      
+      params[:spotify_ids].map!{|e| SpotifyItem.new(JSON.parse(e))}
+        
    
     if params[:spotify_ids][0]&&(params[:number_albums]!=''||params[:number_songs]!='')
 

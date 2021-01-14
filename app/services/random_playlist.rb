@@ -10,7 +10,7 @@ def self.generate(options)
 	
 	songs=SpotifyResponceItems.new(albums).options
 	
-	
+	binding.pry
 	new(songs.item_option.items_id, options.playlist_option)
 	
 end
@@ -20,8 +20,8 @@ def initialize(songs, options)
 	
 	playlist_id=SpotifyApiCall.call_s(:create_playlist,options)
 	options.playlist_id=playlist_id['id']
-	
-	options.songs={uris: @songs.map { |e| 'spotify:track:'+e  }}.to_json
+	binding.pry
+	options.songs={uris: @songs.map { |e| 'spotify:track:'+e.id  }}.to_json
 	playlist=SpotifyApiCall.call_s(:add_items_to_playlist, options)
 	
 end

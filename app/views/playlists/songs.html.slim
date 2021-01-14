@@ -12,16 +12,22 @@ div
 		br 
 		
 	
-		-@albums. each do |name,album|
+		-@albums. each do |name,albums|
 
 			h2 =name
+
+			-albums.each do |album,song|
+
+					h3 =album
+
+
 			
-			=form.collection_check_boxes :spotify_ids, album, :name_with_id, :name do |b|
-				p
-					= b.label(:"data-value" => b.value) { b.check_box }
-					= b.text
-					br
-				
+					=form.collection_check_boxes :spotify_ids, song, :name_with_id, :name do |b|
+						p
+							= b.label(:"data-value" => b.value) { b.check_box }
+							= b.text
+							br
+					
 
 		=submit_tag 'Create playlist'  
 		

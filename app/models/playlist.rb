@@ -38,7 +38,7 @@ def initialize(params=nil)
 	super(params)
 
 	@spotify_ids=[]
-	
+	@names=[]
 	unless params==nil
 		
 		user=User.find params[:user_id]
