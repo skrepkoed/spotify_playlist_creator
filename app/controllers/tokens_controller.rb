@@ -5,7 +5,7 @@ class TokensController < ApplicationController
 	def new
 
 		resp=Token.request_access_token
-
+		#binding.pry
 		redirect_to resp.headers['location']	
 	end
 
@@ -13,6 +13,7 @@ class TokensController < ApplicationController
 	def create
 
 		tokens=Token.verify_access_token(code=params[:code])
+		#binding.pry
 		spotify_user_id=Token.get_spotify_user_id(tokens['access_token'])
 		user=User.find session[:user_id]
 

@@ -27,8 +27,9 @@ class Token < ApplicationRecord
 			req.params[:redirect_uri]='http://localhost:3000/tokens/create'
 			req.params[:client_id]='b6cd001838f8450191a5d06a4cc86179'
 			req.params[:client_secret]=Rails.application.credentials.spotify_secret
+			binding.pry
 			end
-
+			binding.pry
 		JSON.parse(resp.body)
 
 		

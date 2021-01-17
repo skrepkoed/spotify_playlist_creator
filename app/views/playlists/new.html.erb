@@ -1,0 +1,53 @@
+<h1>Playlists#new,</h1>
+<p>Find me in app/views/playlists/new.html.slim
+</p>
+<div>
+<div class="mb-3">
+<%= form_with model:@playlist, url:'/playlists/albums', method: 'post',local: true do |form| %>
+<%= form.label :playlist_name, 'Name' ,class:"form-label" %>
+<%= form.text_field :playlist_name, class:"form-control"%>
+<br>
+</div>
+<div class="mb-3">
+ <%=form.label :number_artists, 'Number of artists in your playlist',class:"form-label"%>
+ <%=form.text_field :number_artists, class:"form-control"%>
+ <br>
+ </div>
+ <div class="mb-3">
+ <%=form.label :albums, 'Number of albums in your playlist',class:"form-label"%>
+ <%=form.text_field :number_albums,class:"form-control" %>
+ <br>
+ </div>
+ <div class="mb-3">
+ <%= form.label :songs, 'Number of tracks in your playlist',class:"form-label"%>
+ <%=form.text_field :number_songs,class:"form-control" %>
+ <br>
+ </div>
+
+ <p>
+  <ul class="list-group">
+ <%= form.collection_check_boxes :spotify_ids, @artists, :name_with_id, :name_with_genres do |b| %>
+ 
+<li class="list-group-item">
+ <div class="form-check">
+  <%= b.label(:"data-value" => b.value, :class=>"form-check-label") { b.check_box(:class=>"form-check-input")}+ b.text[0]%>
+  
+  <br>
+  <%= b.text[1] %>
+  <br>
+  
+</div>
+  </li>
+  <% end %>
+</ul>
+	</p>
+  <%= submit_tag 'Create playlist'%>
+ <%= submit_tag 'Pick an Artist'%>
+
+ <% end %>
+
+
+ 
+</div>
+
+
