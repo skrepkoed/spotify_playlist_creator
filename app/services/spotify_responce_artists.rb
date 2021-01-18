@@ -39,7 +39,7 @@ def options
 	unless  @artists_id
 		#binding.pry
 	self.random_items
-	@common_options.item_option.items_id=@responce.map { |artist| artist.id  }
+	@common_options.item_option.items_id=@responce
 	end
 	@common_options	
 end

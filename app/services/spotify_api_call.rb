@@ -67,7 +67,7 @@ class SpotifyApiCall
 		@paging_items=Proc.new do |req|
 
 			req.params['limit']=@options.limit.to_s 
-
+			req.params['include_groups']='album,single,compilation'
 			if @options.offset!=0
 					req.params['offset']=@options.offset
 				end

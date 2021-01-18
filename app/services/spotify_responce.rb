@@ -24,7 +24,7 @@ end
 def random_items
 	
 	if responce&&responce_total
-	@responce_total=@responce_total.flatten.shuffle.first(@options.number[@type])
+	@responce_total.map! { |e| e.flatten.shuffle.first(@options.number[@type])  } 
 	
 	else
 	@responce=@responce.shuffle.first(@options.number[@type])

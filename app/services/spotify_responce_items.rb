@@ -9,7 +9,7 @@ def initialize(options)
 	@type=@options.endpoint
 	
 	
-	#binding.pry
+	
 	
 	
 	unless @common_options.spotify_ids.empty?
@@ -21,7 +21,7 @@ def initialize(options)
 		@options.items_id.each { |e| @full_names[e.attribute_name]<<e.name  }
 		@names=@options.items_id.map { |e| e.name }
 		super(@type, @options)
-		
+		#binding.pry
 		@responce=@raw_responce['items'].map{|i| SpotifyItem.new(i)}
 
 		@total=@raw_responce['total']
@@ -75,13 +75,13 @@ end
 
 def options
 
-	
+	#binding.pry
 	@common_options.item_option.endpoint= :songs
 	
-	unless @common_options.item_option.items_id
+	unless @common_options.item_option.items_id[0]
 		self.random_items
 
-		@common_options.item_option.items_id=@responce_total.flatten.map { |album| album.id  }
+		@common_options.item_option.items_id=@responce_total.flatten
 	end
 	@common_options	
 	
