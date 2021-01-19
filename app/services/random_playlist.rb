@@ -3,16 +3,20 @@ class RandomPlaylist
 attr_reader :artists, :albums , :songs, :user_id
 
 def self.generate(options)
-
+	if options.number_artists
 	artists=SpotifyResponceArtists.new(options).options
-	#binding.pry
-	albums=SpotifyResponceItems.new(artists).options
-	#binding.pry
+	end
+	if options.number_albums
+		albums=SpotifyResponceItems.new(artists).options
+		else
+			options.item_option.items_id=options.spotify_ids
+			options.item_option.endpoint= :songs
+			options.spotify_ids=[]
+			albums=options
+	end
 	songs=SpotifyResponceItems.new(albums).options
 	
-	
 	new(songs.item_option.items_id, options.playlist_option)
-	
 end
 
 def initialize(songs, options)

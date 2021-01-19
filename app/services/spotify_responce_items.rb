@@ -8,10 +8,6 @@ def initialize(options)
 	@options=options.item_option
 	@type=@options.endpoint
 	
-	
-	
-	
-	
 	unless @common_options.spotify_ids.empty?
 
 		@common_options.item_option.items_id=@common_options.spotify_ids
@@ -21,18 +17,12 @@ def initialize(options)
 		@options.items_id.each { |e| @full_names[e.attribute_name]<<e.name  }
 		@names=@options.items_id.map { |e| e.name }
 		super(@type, @options)
-		#binding.pry
 		@responce=@raw_responce['items'].map{|i| SpotifyItem.new(i)}
-
 		@total=@raw_responce['total']
 		@options.offset+=@options.limit	
 		self.next_page
-		#
- 		
 		@responce.each{|i| i.attribute_name=(@names[0])}
 		@names<<(@names.delete_at 0)
- 
-		#binding.pry
 		@options.current_item= nil
 		@options.offset=0
 		self.next_item
@@ -59,23 +49,17 @@ def next_item
 		@options=responce[:options]
 		@total=responce['total']
 		self.next_page
-		#binding.pry
- 
 		@responce.each{|i| i.attribute_name=(@names[0])}
 		@names<<(@names.delete_at 0)
-
-		#binding.pry
 		@options.current_item= nil
 		@options.offset=0
 		@responce_total<<@responce
 		
 	end
-	#binding.pry
 end
 
 def options
 
-	#binding.pry
 	@common_options.item_option.endpoint= :songs
 	
 	unless @common_options.item_option.items_id[0]
@@ -88,7 +72,7 @@ def options
 end
 
 def responce_total
-	#hash=Hash.new
+	
 	@full_names.each do |k,v| 
 
 		hash=Hash.new 
@@ -103,10 +87,8 @@ def responce_total
 
 	end
 	
-	
-	#@responce_total.each_with_index{|i,k| hash[@names[k]]=i }
 	@full_names
-	#binding.pry
+	
 	
 end
 

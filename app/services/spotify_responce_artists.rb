@@ -6,6 +6,7 @@ def initialize(options)
 	@options=options.artist_option
 	@type=@options.endpoint
 	#####where if begins
+	
 	unless @common_options.spotify_ids.empty?
 
 
@@ -36,6 +37,7 @@ def options
 	
 	@common_options.item_option.endpoint= :albums
 	@common_options.item_option.items_id=@artists_id
+	@common_options.spotify_ids=[]
 	unless  @artists_id
 		#binding.pry
 	self.random_items

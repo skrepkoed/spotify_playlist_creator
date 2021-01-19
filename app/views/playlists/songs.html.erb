@@ -7,29 +7,20 @@
 	<%= form.text_field :playlist_name, class:"form-control"%>
 	<br>
 </div>
- <div class="mb-3">
-	 <%= form.label :songs, 'Number of tracks in your playlist',class:"form-label"%>
-	 <%=form.text_field :number_songs,class:"form-control" %>
-	 <br>
- </div>
-		
-	
 		<% @albums. each do |name,albums| %>
 
 			<h2> <%= name %> </h2>
-			<div class="accordion" id="<%= name %>">
+			<div class="accordion" id="<%= name.downcase.delete ' ' %>">
 			<% albums.each do |album,song|%>
 
 			<div class="accordion-item">
 			
 						<h2 class="accordion-header" id='heading<%= song[0].id %>' >
 			      			<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= song[0].id%>" aria-expanded="false" aria-controls='collapse<%=song[0].id %>'>
-
 					 		<%= album %> 
-
-					</button>
+							</button>
 			         	</h2>
-			    <div id='collapse<%= song[0].id%>' class= "accordion-collapse collapse" aria-labelledby="heading<%= song[0].id%>" data-parent="#<%= name %>">
+			    <div id='collapse<%= song[0].id%>' class= "accordion-collapse collapse" aria-labelledby="heading<%= song[0].id%>" data-parent="#<%= name.downcase.delete ' ' %>">
 			      	<div class="accordion-body">
 						<ul class="list-group">
 				

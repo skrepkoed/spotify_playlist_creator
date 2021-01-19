@@ -35,10 +35,12 @@ def playlist_params
   params.require(:playlist).permit(:playlist_name, :number_artists,:number_albums, :number_songs,:user_id,:endpoint, spotify_ids:[])
 end
 
-def default_params
-  params[:number_artists]||=1
-  params[:number_albums]||=1
-  params[:number_songs]||=1
+def default_params(params)
+  [:number_artists,:number_albums,:number_songs].each do |i|
+    if params[i]==''
+       params[i]=1
+    end
+  end
 end
 
 def tree(path=nil)
@@ -46,21 +48,25 @@ def tree(path=nil)
   params=playlist_params
   params[:spotify_ids].map!{|e| SpotifyItem.new(JSON.parse(e))}
          
-  if params[:spotify_ids][0]&&(params[:number_albums]!=''||params[:number_songs]!='')
-
-    default_params
+  if params[:spotify_ids][0]&&((params[:number_albums]!=''&&params[:number_albums])||(params[:number_songs]!=''&&params[:number_songs]))
+    
+    default_params(params)
+    options=Playlist.create(params) 
+    playlist=RandomPlaylist.generate(options)
+    redirect_to user_path session[:user_id]
+    
     elsif params[:spotify_ids][0]
       @playlist=Playlist.new
       @list=Playlist.list(session[:user_id],endpoint,params)  
       @albums=SpotifyResponceItems.new(@list).responce_total 
         
       elsif params[:number_artists]==''||params[:number_albums]==''||params[:number_songs]==''
-        default_params
-        options=Playlist.create(playlist_params)  
+        default_params(params)
+        options=Playlist.create(params)  
         playlist=RandomPlaylist.generate(options)
-        
+        redirect_to user_path session[:user_id]
+  
   else
-    default_params
     options=Playlist.create(playlist_params)  
     playlist=RandomPlaylist.generate(options)            
     redirect_to user_path session[:user_id]
