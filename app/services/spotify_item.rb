@@ -6,12 +6,15 @@ class SpotifyItem<OpenStruct
 	#attr_accessor :attribute_name
 	def initialize(element)
 
-		element=element.select{|k| k=='id'||k=='name'||k=='type'||k=='uri'||k=='genres'||k=='attribute_name' }
+		element=element.select{|k| k=='id'||k=='name'||k=='type'||k=='uri'||k=='genres'||k=='attribute_name'||k=='images' }
+			if element['images']
+				element['images']=element['images'][1]
+			end
 		super(element)
 			unless attribute_name
-			self[:attribute_name]=nil
-			self
-		end
+				self[:attribute_name]=nil
+				self
+			end
 	end
 
 	def name_with_genres
@@ -29,17 +32,5 @@ class SpotifyItem<OpenStruct
 		
 	end
 
-
-end
-
-class Artist<OpenStruct
-
-end
-
-class Album<OpenStruct
-
-end
-
-class Song<OpenStruct
 
 end

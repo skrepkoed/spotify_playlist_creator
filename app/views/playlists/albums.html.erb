@@ -25,20 +25,26 @@
 			         			<%= name%>
 			         		</button>
 			         	</h2>
+
 			    <div id='collapse<%= album[0].id%>' class= "accordion-collapse collapse" aria-labelledby="heading<%= album[0].id%>" data-parent="#accordionExample">
 			      	<div class="accordion-body">
-					<ul class="list-group">
+					
 						<%=form.collection_check_boxes :spotify_ids, album, :name_with_id, :name do |b|%>
-							<li class="list-group-item">
+							<div class="card" style="width: 18rem;">
+			 					<img src="<%= b.object.images['url']%>" class="img-thumbnail" alt="...">
+			 					<div class="card-body">
 			 					<div class="form-check">
+
 									<%= b.label(:"data-value" => b.value, :class=>"form-check-label") { b.check_box(:class=>"form-check-input") } %>
-									<%=b.text%>
+									<h5 class="card-title"><%=b.text%></h5>
 										<br>
 										<br>
 								</div>
-							</li>
+								</div>
+								 
+							</div>
 						<%end%>
-					</ul>
+					
 
 					</div>
 

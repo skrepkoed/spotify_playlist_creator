@@ -29,21 +29,8 @@ def random_items
 	else
 	@responce=@responce.shuffle.first(@options.number[@type])
 	
-	end 	
-end
-
-def filtred_responce(&block)
-
-	if responce 
-
-	 	responce.map(&block)
-
-	else
-
-	 	responce_total.flatten.map(&block)
-	end
-
-	
+	end 
+	#binding.pry	
 end
 
 
